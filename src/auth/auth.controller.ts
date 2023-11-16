@@ -106,6 +106,7 @@ export class AuthController {
     res.status(HttpStatus.CREATED).json({
       accesToken: tokens.accesToken,
       refreshToken: tokens.refreshToken,
+      user: tokens._user,
     });
   }
 }

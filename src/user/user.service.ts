@@ -28,7 +28,7 @@ export class UserService {
         email: user.email,
         username: user.username,
         password: hashedPassword,
-        roleId: user.roleId,
+        roleId: 1,
       },
     });
 
