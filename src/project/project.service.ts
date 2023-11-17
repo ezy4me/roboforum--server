@@ -34,8 +34,6 @@ export class ProjectService {
       },
     });
 
-    console.log(files);
-
     let filePaths: string[] = [];
 
     filePaths = await Promise.all(
@@ -57,7 +55,8 @@ export class ProjectService {
   }
 
   async saveFile(file: any): Promise<string> {
-    const uploadDir = path.join(__dirname, '..', 'uploads');
+    const uploadDir = path.join(__dirname, '../uploads');
+    // const uploadDir = path.join(__dirname, '../../../src', /uploads');
 
     try {
       await fs.access(uploadDir);
@@ -65,7 +64,7 @@ export class ProjectService {
       await fs.mkdir(uploadDir, { recursive: true });
     }
 
-    const fileName = uuidv4() + path.extname(file.originalname); // Include the original file extension in the filename
+    const fileName = uuidv4() + path.extname(file.originalname);
     const filePath = path.join(uploadDir, fileName);
 
     await fs.writeFile(filePath, file.buffer);
