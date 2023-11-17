@@ -5,9 +5,10 @@ import { ProjectCommentModule } from './project-comment/project-comment.module';
 import { FavoriteProjectModule } from './favorite-project/favorite-project.module';
 import { ProjectTypeModule } from './project-type/project-type.module';
 import { ProjectController } from './project.controller';
+import { DatabaseService } from '@database/database.service';
 
 @Module({
-  providers: [ProjectService],
+  providers: [ProjectService, DatabaseService],
   imports: [
     ProjectFilesModule,
     ProjectCommentModule,

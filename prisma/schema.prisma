@@ -80,7 +80,7 @@ model SocialsType {
 model Project {
   id          Int      @id @default(autoincrement())
   title       String
-  descroption String
+  description String
   date        DateTime
 
   projectFiles ProjectFiles[]
