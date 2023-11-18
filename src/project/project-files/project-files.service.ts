@@ -24,7 +24,7 @@ export class ProjectFilesService {
   }
 
   async createProjectFile(projectId: number, file: any): Promise<ProjectFiles> {
-    const fileName = await this.saveFile(file);
+    const fileName = await this.saveFile(file[0]);
 
     return this.databaseService.projectFiles.create({
       data: {
