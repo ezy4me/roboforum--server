@@ -18,6 +18,19 @@ export class ProjectService {
     });
   }
 
+  async getAllProjects(): Promise<Project[]> {
+    return this.databaseService.project.findMany({
+      include: {
+        user: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
   async deleteUserProject(projectId: number): Promise<Project> {
     return this.databaseService.project.delete({
       where: { id: projectId },

@@ -15,6 +15,7 @@ import { ProjectService } from './project.service';
 import { ProjectDto } from './dto/project.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Project } from '@prisma/client';
+import { Public } from '@common/decorators';
 
 @Controller('project')
 export class ProjectController {
@@ -26,6 +27,14 @@ export class ProjectController {
     @Param('userId', ParseIntPipe) userId: number,
   ): Promise<Project[]> {
     const projects = await this.projectService.getUserProjects(userId);
+    return projects;
+  }
+
+  @Public()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('')
+  async getAllProjects(): Promise<Project[]> {
+    const projects = await this.projectService.getAllProjects();
     return projects;
   }
 
