@@ -18,6 +18,12 @@ export class ProjectService {
     });
   }
 
+  async deleteUserProject(projectId: number): Promise<Project> {
+    return this.databaseService.project.delete({
+      where: { id: projectId },
+    });
+  }
+
   async createUserProject(
     dto: ProjectDto,
     files: any,
