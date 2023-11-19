@@ -21,6 +21,13 @@ export class ProjectService {
     });
   }
 
+  async getOneUserProject(projectId: number): Promise<Project> {
+    return this.databaseService.project.findUnique({
+      where: { id: projectId },
+      include: { projectFiles: true },
+    });
+  }
+
   async getAllProjects(): Promise<Project[]> {
     return this.databaseService.project.findMany({
       include: {
@@ -79,9 +86,17 @@ export class ProjectService {
     return { project, projectFiles: filePaths };
   }
 
+  async searchProjects(searchTerm: string): Promise<Project[]> {
+    return this.databaseService.project.findMany({
+      where: {
+        title: { contains: searchTerm, mode: 'insensitive' },
+      },
+    });
+  }
+
   async saveFile(file: any): Promise<string> {
-    const uploadDir = path.join(__dirname, '../uploads');
-    // const uploadDir = path.join(__dirname, '../../../src', /uploads');
+    await path.join(__dirname, '../uploads');
+    const uploadDir = path.join(__dirname, '../../../src', '/uploads');
 
     try {
       await fs.access(uploadDir);

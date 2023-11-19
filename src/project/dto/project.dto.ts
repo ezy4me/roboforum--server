@@ -1,5 +1,5 @@
 import { Project } from '@prisma/client';
-import { IsDateString, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProjectDto {
   @IsString()
@@ -23,4 +23,30 @@ export class ProjectDto {
 export interface ProjectAndFiles {
   project: Project;
   projectFiles?: string[];
+}
+
+export class ProjectSearchDto {
+  @IsOptional()
+  @IsString()
+  searchTerm?: string;
+
+  @IsOptional()
+  @IsString()
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+
+  @IsOptional()
+  @IsDateString()
+  date?: any;
+
+  @IsOptional()
+  @IsNumber()
+  userId?: number;
+
+  @IsOptional()
+  @IsNumber()
+  projectTypeId?: number;
 }

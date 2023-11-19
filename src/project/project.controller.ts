@@ -32,6 +32,15 @@ export class ProjectController {
 
   @Public()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('one/:projectId')
+  async getOneUserProject(
+    @Param('projectId', ParseIntPipe) projectId: number,
+  ): Promise<Project> {
+    return this.projectService.getOneUserProject(projectId);
+  }
+
+  @Public()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('')
   async getAllProjects(): Promise<Project[]> {
     const projects = await this.projectService.getAllProjects();
@@ -73,5 +82,14 @@ export class ProjectController {
   ): Promise<Project> {
     const project = await this.projectService.deleteUserProject(projectId);
     return project;
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('/search/:searchTerm')
+  async searchProjects(
+    @Param('searchTerm') searchTerm: string,
+  ): Promise<Project[]> {
+    const projects = await this.projectService.searchProjects(searchTerm);
+    return projects;
   }
 }

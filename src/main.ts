@@ -8,7 +8,10 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+  app.use(
+    '/uploads',
+    express.static(path.join(__dirname, '../../../src', 'uploads')),
+  );
 
   const corsOptions: CorsOptions = {
     origin: 'http://localhost:5173',
