@@ -15,6 +15,9 @@ export class ProjectService {
   async getUserProjects(userId: number): Promise<Project[]> {
     return this.databaseService.project.findMany({
       where: { userId },
+      orderBy: {
+        date: 'desc',
+      },
     });
   }
 
@@ -27,6 +30,9 @@ export class ProjectService {
             email: true,
           },
         },
+      },
+      orderBy: {
+        date: 'desc',
       },
     });
   }

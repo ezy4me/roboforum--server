@@ -9,16 +9,18 @@ export class ProjectDto {
   description: string;
 
   @IsDateString()
-  date: any;
+  date?: any;
 
   @IsNumber()
   userId: number;
 
   @IsNumber()
   projectTypeId: number;
+
+  projectFiles: Array<any>;
 }
 
 export interface ProjectAndFiles {
   project: Project;
-  projectFiles: string[];
+  projectFiles?: string[];
 }
