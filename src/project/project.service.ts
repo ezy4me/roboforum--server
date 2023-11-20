@@ -93,9 +93,9 @@ export class ProjectService {
       },
     });
   }
+  // await path.join(__dirname, '../uploads');
 
   async saveFile(file: any): Promise<string> {
-    await path.join(__dirname, '../uploads');
     const uploadDir = path.join(__dirname, '../../../src', '/uploads');
 
     try {
