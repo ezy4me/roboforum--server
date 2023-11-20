@@ -57,4 +57,7 @@ export class ProjectCommentDto {
 
   @IsString()
   comment: string;
+
+  @IsString()
+  date?: string;
 }

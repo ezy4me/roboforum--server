@@ -24,7 +24,14 @@ export class ProjectService {
   async getOneUserProject(projectId: number): Promise<Project> {
     return this.databaseService.project.findUnique({
       where: { id: projectId },
-      include: { projectFiles: true },
+      include: {
+        projectFiles: true,
+        user: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
   }
 
@@ -93,8 +100,6 @@ export class ProjectService {
       },
     });
   }
-  // await path.join(__dirname, '../uploads');
-
   async saveFile(file: any): Promise<string> {
     const uploadDir = path.join(__dirname, '../../../src', '/uploads');
 
@@ -108,9 +113,6 @@ export class ProjectService {
     const filePath = path.join(uploadDir, fileName);
 
     await fs.writeFile(filePath, file.buffer);
-
-    console.log(fileName);
-
     return fileName;
   }
 }

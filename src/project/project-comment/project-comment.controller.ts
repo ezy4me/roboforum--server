@@ -11,11 +11,13 @@ import {
 import { ProjectCommentService } from './project-comment.service';
 import { ProjectComment } from '@prisma/client';
 import { ProjectCommentDto } from '@project/dto';
+import { Public } from '@common/decorators';
 
 @Controller('project/comment')
 export class ProjectCommentController {
   constructor(private readonly projectCommentService: ProjectCommentService) {}
 
+  @Public()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':projectId')
   async getProjectComments(
