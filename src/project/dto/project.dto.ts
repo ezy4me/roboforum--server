@@ -50,3 +50,11 @@ export class ProjectSearchDto {
   @IsNumber()
   projectTypeId?: number;
 }
+
+export class ProjectCommentDto {
+  @IsNumber()
+  userId: number;
+
+  @IsString()
+  comment: string;
+}

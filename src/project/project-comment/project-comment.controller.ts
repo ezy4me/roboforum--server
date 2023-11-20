@@ -1,7 +1,35 @@
-import { Controller } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Controller,
+  Param,
+  ParseIntPipe,
+  UseInterceptors,
+  Get,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { ProjectCommentService } from './project-comment.service';
+import { ProjectComment } from '@prisma/client';
+import { ProjectCommentDto } from '@project/dto';
 
 @Controller('project/comment')
 export class ProjectCommentController {
   constructor(private readonly projectCommentService: ProjectCommentService) {}
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get(':projectId')
+  async getProjectComments(
+    @Param('projectId', ParseIntPipe) projectId: number,
+  ): Promise<ProjectComment[]> {
+    return this.projectCommentService.getProjectComments(projectId);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post(':projectId')
+  async postUserProjectComment(
+    @Param('projectId', ParseIntPipe) projectId: number,
+    @Body() dto: ProjectCommentDto,
+  ): Promise<ProjectComment> {
+    return this.projectCommentService.postUserProjectComment(projectId, dto);
+  }
 }
