@@ -27,7 +27,7 @@ export class UserSocialsController {
   @Post(':id')
   create(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: CreateUserSocialsDto,
+    @Body() dto: CreateUserSocialsDto[],
   ): Promise<UserSocials[]> {
     return this.userSocialsService.createUserSocials(id, dto);
   }

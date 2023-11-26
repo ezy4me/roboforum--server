@@ -1,3 +1,4 @@
+import { UserSocialsService } from './../user-socials/user-socials.service';
 import { DatabaseService } from '@database/database.service';
 import { Injectable } from '@nestjs/common';
 import { User, UserProfile } from '@prisma/client';
@@ -10,11 +11,23 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserProfileService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly userSocialsService: UserSocialsService,
+  ) {}
 
   async getUserProfile(userId: number): Promise<UserProfile> {
     return this.databaseService.userProfile.findUnique({
       where: { userId },
+      include: {
+        userSocials: {
+          select: {
+            id: true,
+            link: true,
+            resource: true,
+          },
+        },
+      },
     });
   }
 
@@ -40,7 +53,27 @@ export class UserProfileService {
   ): Promise<UserProfile> {
     console.log(image);
 
-    const fileName = await this.saveFile(image[0]);
+    if (image.length > 0) {
+      const fileName = await this.saveFile(image[0]);
+      this.databaseService.userProfile.update({
+        where: { userId },
+        data: {
+          image: fileName,
+        },
+      });
+    }
+
+    const profile = await this.getUserProfile(userId);
+
+    const userSocials = await this.userSocialsService.getUserSocials(
+      profile.id,
+    );
+
+    if (dto.links && !userSocials) {
+      await this.userSocialsService.createUserSocials(profile.id, dto.links);
+    } else {
+      await this.userSocialsService.updateUserSocials(dto.links);
+    }
 
     return this.databaseService.userProfile.update({
       where: { userId },
@@ -49,7 +82,6 @@ export class UserProfileService {
         company: dto.company,
         location: dto.location,
         name: dto.name,
-        image: fileName,
       },
     });
   }

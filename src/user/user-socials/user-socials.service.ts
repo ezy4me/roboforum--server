@@ -1,7 +1,6 @@
 import { DatabaseService } from '@database/database.service';
 import { Injectable } from '@nestjs/common';
 import { UserSocials } from '@prisma/client';
-import { CreateUserSocialsDto } from '@user/dto';
 
 @Injectable()
 export class UserSocialsService {
@@ -13,22 +12,41 @@ export class UserSocialsService {
     });
   }
 
-  async createUserSocials(
-    id: number,
-    dto: CreateUserSocialsDto,
-  ): Promise<UserSocials[]> {
+  async createUserSocials(profileId: number, dto: any): Promise<UserSocials[]> {
     const userSocials = [];
-    for (let i = 0; i < dto.link.length; i++) {
+
+    for (let i = 0; i < dto.length; i++) {
+      const parsedDto = JSON.parse(dto[i]);
       const us: any = await this.databaseService.userSocials.create({
         data: {
-          userProfileId: id,
-          link: dto.link[i],
-          resource: dto.link[i],
+          userProfileId: profileId,
+          link: parsedDto.link,
+          resource: parsedDto.resource,
         },
       });
 
       userSocials.push(us);
     }
+
+    return userSocials;
+  }
+
+  async updateUserSocials(dto: any): Promise<UserSocials[]> {
+    const userSocials = [];
+
+    for (let i = 0; i < dto.length; i++) {
+      const parsedDto = JSON.parse(dto[i]);
+      const us: any = await this.databaseService.userSocials.update({
+        where: { id: parsedDto.id },
+        data: {
+          link: parsedDto.link,
+          resource: parsedDto.resource,
+        },
+      });
+
+      userSocials.push(us);
+    }
+
     return userSocials;
   }
 
