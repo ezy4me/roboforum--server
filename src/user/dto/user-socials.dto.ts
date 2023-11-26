@@ -4,17 +4,17 @@ export class UserSocialsDto {
   @IsString()
   link: string;
 
-  @IsNumber()
-  userProfileId: number;
+  @IsString()
+  resource: string;
 
   @IsNumber()
-  socialsTypeId: number;
+  userProfileId: number;
 }
 
 export class CreateUserSocialsDto {
   @IsString()
-  link: Array<string>;
+  link: string;
 
-  @IsNumber()
-  socialsTypeId: Array<number>;
+  @IsString()
+  resource: string;
 }

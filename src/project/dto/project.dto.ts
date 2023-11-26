@@ -53,11 +53,8 @@ export class ProjectSearchDto {
 
 export class ProjectCommentDto {
   @IsNumber()
-  userId: number;
+  userCommentId: number;
 
-  @IsString()
-  comment: string;
-
-  @IsString()
-  date?: string;
+  @IsNumber()
+  projectId: number;
 }

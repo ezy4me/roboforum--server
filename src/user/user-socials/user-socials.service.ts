@@ -10,7 +10,6 @@ export class UserSocialsService {
   async getUserSocials(id: number): Promise<UserSocials[]> {
     return this.databaseService.userSocials.findMany({
       where: { userProfileId: id },
-      include: { socialsType: true },
     });
   }
 
@@ -24,7 +23,7 @@ export class UserSocialsService {
         data: {
           userProfileId: id,
           link: dto.link[i],
-          socialsTypeId: dto.socialsTypeId[i],
+          resource: dto.link[i],
         },
       });
 

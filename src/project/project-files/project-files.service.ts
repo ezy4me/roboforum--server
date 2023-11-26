@@ -30,6 +30,7 @@ export class ProjectFilesService {
       data: {
         projectId: projectId,
         file: fileName,
+        name: fileName,
       },
     });
   }

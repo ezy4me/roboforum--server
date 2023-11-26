@@ -15,4 +15,6 @@ export class UpdateUserProfileDto {
 
   @IsString()
   location: string;
+
+  image: any;
 }

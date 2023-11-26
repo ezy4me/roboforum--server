@@ -10,17 +10,6 @@ export class ProjectCommentService {
   async getProjectComments(projectId: number): Promise<ProjectComment[]> {
     return this.databaseService.projectComment.findMany({
       where: { projectId },
-      include: {
-        user: {
-          select: {
-            username: true,
-            email: true,
-          },
-        },
-      },
-      orderBy: {
-        date: 'desc',
-      },
     });
   }
 
@@ -31,9 +20,7 @@ export class ProjectCommentService {
     return this.databaseService.projectComment.create({
       data: {
         projectId,
-        userId: dto.userId,
-        comment: dto.comment,
-        date: new Date(),
+        userCommentId: dto.userCommentId,
       },
     });
   }

@@ -83,6 +83,7 @@ export class ProjectService {
           data: {
             projectId: project.id,
             file: fileName,
+            name: fileName,
           },
         });
 

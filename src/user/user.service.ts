@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { convertToSecondsUtil } from '@common/utils';
 import { genSaltSync, hashSync } from 'bcrypt';
 import { UserProfileService } from './user-profile/user-profile.service';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,29 @@ export class UserService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly configService: ConfigService,
   ) {}
+
+  async updateUser(userId: number, dto: UpdateUserDto): Promise<any> {
+    const user = await this.databaseService.user.update({
+      where: { id: userId },
+      data: {
+        username: dto.username,
+      },
+      include: {
+        role: true,
+      },
+    });
+
+    console.log(dto.username);
+
+    const _user = {
+      userId: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role.name,
+    };
+
+    return _user;
+  }
 
   private hashPassword(password: string) {
     return hashSync(password, genSaltSync(2));
