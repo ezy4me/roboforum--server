@@ -55,7 +55,7 @@ export class UserProfileService {
 
     if (image.length > 0) {
       const fileName = await this.saveFile(image[0]);
-      this.databaseService.userProfile.update({
+      await this.databaseService.userProfile.update({
         where: { userId },
         data: {
           image: fileName,
@@ -69,7 +69,7 @@ export class UserProfileService {
       profile.id,
     );
 
-    if (dto.links && !userSocials) {
+    if (dto.links && userSocials.length == 0) {
       await this.userSocialsService.createUserSocials(profile.id, dto.links);
     } else {
       await this.userSocialsService.updateUserSocials(dto.links);
