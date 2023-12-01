@@ -15,7 +15,15 @@ export class ProjectCommentService {
     return this.databaseService.projectComment.findMany({
       where: { projectId },
       include: {
-        userComment: true,
+        userComment: {
+          include: {
+            user: {
+              select: {
+                username: true,
+              },
+            },
+          },
+        },
       },
     });
   }
