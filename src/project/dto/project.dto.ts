@@ -1,4 +1,5 @@
 import { Project } from '@prisma/client';
+import { UserCommentDto } from '@user/dto';
 import { IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ProjectDto {
@@ -51,10 +52,10 @@ export class ProjectSearchDto {
   projectTypeId?: number;
 }
 
-export class ProjectCommentDto {
+export class ProjectCommentDto extends UserCommentDto {
   @IsNumber()
-  userCommentId: number;
+  userCommentId?: number;
 
   @IsNumber()
-  projectId: number;
+  projectId?: number;
 }
