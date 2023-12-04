@@ -1,6 +1,6 @@
 import { DatabaseService } from '@database/database.service';
 import { Injectable } from '@nestjs/common';
-import { ProjectComment } from '@prisma/client';
+import { ProjectComment, ProjectCommentFork } from '@prisma/client';
 import { ProjectCommentDto } from '@project/dto';
 import { UserCommentService } from '@user/user-comment/user-comment.service';
 
@@ -24,6 +24,19 @@ export class ProjectCommentService {
             },
           },
         },
+        projectCommentFork: {
+          include: {
+            userComment: {
+              include: {
+                user: {
+                  select: {
+                    username: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -39,6 +52,33 @@ export class ProjectCommentService {
         data: {
           projectId,
           userCommentId: userComment.id,
+        },
+      });
+    }
+  }
+
+  async postUserProjectCommentAnswer(
+    projectId: number,
+    dto: ProjectCommentDto,
+  ): Promise<ProjectCommentFork> {
+    const userComment = await this.userCommentService.createUserComment(dto);
+
+    const userProjectComment =
+      await this.databaseService.projectComment.findUnique({
+        where: {
+          userCommentId: dto.userCommentId,
+        },
+      });
+
+    if (userComment && userProjectComment) {
+      return this.databaseService.projectCommentFork.create({
+        data: {
+          projectCommentId: userProjectComment.id,
+          userCommentId: userComment.id,
+        },
+        include: {
+          userComment: true,
+          projectComment: true,
         },
       });
     }

@@ -17,9 +17,17 @@ export class UserCommentService {
   }
 
   async findCommentByUserId(userId: number) {
-    return this.databaseService.userComment.findUnique({
+    return this.databaseService.userComment.findMany({
       where: {
         userId,
+      },
+    });
+  }
+
+  async findCommentById(commentId: number) {
+    return this.databaseService.userComment.findUnique({
+      where: {
+        id: commentId,
       },
     });
   }

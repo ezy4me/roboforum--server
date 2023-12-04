@@ -9,7 +9,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { ProjectCommentService } from './project-comment.service';
-import { ProjectComment } from '@prisma/client';
+import { ProjectComment, ProjectCommentFork } from '@prisma/client';
 import { ProjectCommentDto } from '@project/dto';
 import { Public } from '@common/decorators';
 
@@ -33,5 +33,17 @@ export class ProjectCommentController {
     @Body() dto: ProjectCommentDto,
   ): Promise<ProjectComment> {
     return this.projectCommentService.postUserProjectComment(projectId, dto);
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Post('answer/:projectId')
+  async postUserProjectCommentAnswer(
+    @Param('projectId', ParseIntPipe) projectId: number,
+    @Body() dto: ProjectCommentDto,
+  ): Promise<ProjectCommentFork> {
+    return this.projectCommentService.postUserProjectCommentAnswer(
+      projectId,
+      dto,
+    );
   }
 }

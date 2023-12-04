@@ -6,6 +6,7 @@ import { FavoriteProjectModule } from './favorite-project/favorite-project.modul
 import { ProjectTypeModule } from './project-type/project-type.module';
 import { ProjectController } from './project.controller';
 import { DatabaseService } from '@database/database.service';
+import { ProjectTagsModule } from './project-tags/project-tags.module';
 
 @Module({
   providers: [ProjectService, DatabaseService],
@@ -14,6 +15,7 @@ import { DatabaseService } from '@database/database.service';
     ProjectCommentModule,
     FavoriteProjectModule,
     ProjectTypeModule,
+    ProjectTagsModule,
   ],
   controllers: [ProjectController],
 })
