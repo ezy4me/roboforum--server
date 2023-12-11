@@ -18,6 +18,8 @@ export class ProjectDto {
   @IsNumber()
   projectTypeId: number;
 
+  tags?: any;
+
   projectFiles: Array<any>;
 }
 

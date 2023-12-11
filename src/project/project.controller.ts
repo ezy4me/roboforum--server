@@ -41,6 +41,14 @@ export class ProjectController {
 
   @Public()
   @UseInterceptors(ClassSerializerInterceptor)
+  @Get('public')
+  async getPublicProjects(): Promise<Project[]> {
+    const projects = await this.projectService.getPublicProjects();
+    return projects;
+  }
+
+  @Public()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('')
   async getAllProjects(): Promise<Project[]> {
     const projects = await this.projectService.getAllProjects();
@@ -62,17 +70,32 @@ export class ProjectController {
   }
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @Put()
+  @Put(':projectId')
   @UseInterceptors(FilesInterceptor('projectFiles'))
   async updateProject(
+    @Param('projectId', ParseIntPipe) projectId: number,
     @UploadedFiles() files?: Array<Express.Multer.File>,
     @Body() projectDto?: ProjectDto,
   ) {
-    const projectAndFiles = await this.projectService.createUserProject(
+    const projectAndFiles = await this.projectService.updateUserProject(
+      projectId,
       projectDto,
       files,
     );
     return projectAndFiles;
+  }
+
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Delete(':projectId/:imageId')
+  async deleteProjectImage(
+    @Param('projectId', ParseIntPipe) projectId: number,
+    @Param('imageId', ParseIntPipe) imageId: number,
+  ): Promise<Project> {
+    const project = await this.projectService.deleteProjectImage(
+      projectId,
+      imageId,
+    );
+    return project;
   }
 
   @UseInterceptors(ClassSerializerInterceptor)

@@ -7,9 +7,10 @@ import { ProjectTypeModule } from './project-type/project-type.module';
 import { ProjectController } from './project.controller';
 import { DatabaseService } from '@database/database.service';
 import { ProjectTagsModule } from './project-tags/project-tags.module';
+import { ProjectTagsService } from './project-tags/project-tags.service';
 
 @Module({
-  providers: [ProjectService, DatabaseService],
+  providers: [ProjectService, ProjectTagsService, DatabaseService],
   imports: [
     ProjectFilesModule,
     ProjectCommentModule,
