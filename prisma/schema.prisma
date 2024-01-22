@@ -128,7 +128,7 @@ model ProjectComment {
 model Discussion {
   id          Int      @id @default(autoincrement())
   title       String
-  descroption String
+  description String
   date        DateTime
 
   discussionFiles DiscussionFiles[]

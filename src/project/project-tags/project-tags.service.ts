@@ -37,7 +37,7 @@ export class ProjectTagsService {
     const isExist = await this.databaseService.projectTags.findFirst({
       where: { tagId: parseInt(_tagId), projectId },
     });
-    console.log(true ? isExist !== null : false);
+    // console.log(true ? isExist !== null : false);
 
     return true ? isExist !== null : false;
   }

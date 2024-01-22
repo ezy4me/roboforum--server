@@ -107,6 +107,7 @@ export class ProjectController {
     return project;
   }
 
+  @Public()
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('/search/:searchTerm')
   async searchProjects(

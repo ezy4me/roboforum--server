@@ -232,11 +232,31 @@ export class ProjectService {
   }
 
   async searchProjects(searchTerm: string): Promise<Project[]> {
-    return this.databaseService.project.findMany({
-      where: {
-        title: { contains: searchTerm, mode: 'insensitive' },
-      },
-    });
+    if (searchTerm) {
+      return this.databaseService.project.findMany({
+        where: {
+          title: { contains: searchTerm, mode: 'insensitive' },
+          projectTypeId: 1,
+        },
+        include: {
+          user: {
+            select: {
+              username: true,
+              email: true,
+            },
+          },
+          projectTags: {
+            include: {
+              tag: true,
+            },
+          },
+        },
+        orderBy: {
+          date: 'desc',
+        },
+      });
+    }
+    return this.getPublicProjects();
   }
 
   async deleteProjectImage(
