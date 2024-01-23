@@ -20,6 +20,12 @@ export class UserProfileService {
     return this.databaseService.userProfile.findUnique({
       where: { userId },
       include: {
+        user: {
+          select: {
+            username: true,
+            email: true,
+          },
+        },
         userSocials: {
           select: {
             id: true,
