@@ -9,19 +9,31 @@ export class FavoriteProjectService {
   async getUserFavoriteProjects(userId: number): Promise<FavoriteProject[]> {
     return this.databaseService.favoriteProject.findMany({
       where: { userId },
+      include: {
+        project: true,
+      },
     });
   }
 
-  async createUserFavoriteProjects(
+  async createUserFavoriteProject(
     userId: number,
     projectId: number,
   ): Promise<FavoriteProject> {
-    return this.databaseService.favoriteProject.create({
-      data: {
-        userId: userId,
-        projectId: projectId,
+    const project = await this.databaseService.favoriteProject.findFirst({
+      where: {
+        userId,
+        projectId,
       },
     });
+
+    if (!project) {
+      return this.databaseService.favoriteProject.create({
+        data: {
+          userId: userId,
+          projectId: projectId,
+        },
+      });
+    }
   }
 
   async deleteUserFavoriteProject(

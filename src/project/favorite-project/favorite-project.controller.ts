@@ -31,7 +31,7 @@ export class FavoriteProjectController {
     @Param('userId', ParseIntPipe) userId: number,
     @Param('projectId', ParseIntPipe) projectId: number,
   ): Promise<FavoriteProject> {
-    return this.favoriteProjectsService.createUserFavoriteProjects(
+    return this.favoriteProjectsService.createUserFavoriteProject(
       userId,
       projectId,
     );
